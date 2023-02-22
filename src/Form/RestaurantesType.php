@@ -17,7 +17,13 @@ class RestaurantesType extends AbstractType
             ->add('localidad', TextType::class)
             ->add('horario', TextType::class)
             ->add('telefono', NumberType::class)
-            ->add('aforo', NumberType::class)
+            ->add('aforo', ChoiceType::class, [
+                'choices'  => [
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ],
+            ])
             ->add('inventarios')
         ;
     }
