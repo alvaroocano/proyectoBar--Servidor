@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inventarios{% endblock %}
+
+{% block body %}
+    <h1>Inventarios</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ inventario.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ inventario.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>{{ inventario.precio }}</td>
+            </tr>
+            <tr>
+                <th>Cantidad</th>
+                <td>{{ inventario.cantidad }}</td>
+            </tr>
+            <tr>
+                <th>Tipo</th>
+                <td>{{ inventario.tipo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_inventarios_index') }}">back to list</a>
+
+    <a href="{{ path('app_inventarios_edit', {'id': inventario.id}) }}">edit</a>
+
+    {{ include('inventarios/_delete_form.html.twig') }}
+{% endblock %}
