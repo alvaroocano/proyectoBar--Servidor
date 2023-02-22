@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Restaurantes;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,10 +14,10 @@ class RestaurantesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('localidad')
-            ->add('horario')
-            ->add('telefono')
-            ->add('aforo')
+            ->add('localidad', TextType::class)
+            ->add('horario', TextType::class)
+            ->add('telefono', NumberType::class)
+            ->add('aforo', NumberType::class)
             ->add('inventarios')
         ;
     }
