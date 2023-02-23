@@ -41,12 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $nombre;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Reservas::class, inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $reservas;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -147,15 +141,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getReservas(): ?Reservas
-    {
-        return $this->reservas;
-    }
-
-    public function setReservas(?Reservas $reservas): self
-    {
-        $this->reservas = $reservas;
-
-        return $this;
-    }
 }

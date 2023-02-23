@@ -60,11 +60,6 @@ class Reservas
     private $total;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="reservas", orphanRemoval=true)
-     */
-    private $users;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Restaurantes::class, inversedBy="reservas")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -172,36 +167,6 @@ class Reservas
     public function setTotal(float $total): self
     {
         $this->total = $total;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setReservas($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getReservas() === $this) {
-                $user->setReservas(null);
-            }
-        }
 
         return $this;
     }
