@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\Inventarios;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,10 +16,18 @@ class InventariosType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('precio')
-            ->add('cantidad')
-            ->add('tipo')
+            ->add('nombre', TextType::class)
+            ->add('precio', NumberType::class)
+            ->add('cantidad', IntegerType::class)
+            ->add('tipo', ChoiceType::class, [
+                'choices'  => [
+                    'Seleccione el tipo' => '0',
+                    'Primero' => 'primero',
+                    'Segundo' => 'segundo',
+                    'Postre' => 'postre',
+                    'Bebida' => 'bebida',
+                ],
+            ])
             ->add('restaurantes')
         ;
     }

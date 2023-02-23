@@ -18,7 +18,10 @@ class Restaurantes
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    public function __toString()
+    {
+        return $this->localidad;        
+    }
     /**
      * @ORM\Column(type="string", length=255)
      */

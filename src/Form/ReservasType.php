@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\FloatType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +22,7 @@ class ReservasType extends AbstractType
             ->add('nro_personas', IntegerType::class)
             ->add('primero', ChoiceType::class, [
                 'choices'  => [
+                    'Escoja el primer plato' => '0',
                     'Sopa Castellana' => 'sopa',
                     'Callos a la madrileña' => 'callos',
                     'Cachopo Asturiano' => 'cachopo',
@@ -29,6 +30,7 @@ class ReservasType extends AbstractType
             ])
             ->add('segundo', ChoiceType::class, [
                 'choices'  => [
+                    'Escoja el segundo plato' => '0',
                     'Pollo a la jardinera' => 'pollo',
                     'Albóndigas con patatas' => 'albondigas',
                     'Butifarra de vic a la brasa' => 'butifarra',
@@ -36,15 +38,25 @@ class ReservasType extends AbstractType
             ])
             ->add('bebida', ChoiceType::class, [
                 'choices'  => [
+                    'Escoja la bebida' => '0',
                     'Agua' => 'agua',
                     'Vino' => 'vino',
                     'Cerveza' => 'cerveza',
                     'Refresco' => 'refresco',
                 ],
             ])
-            ->add('postre')
-            ->add('total')
+            ->add('postre', ChoiceType::class, [
+                'choices'  => [
+                    'Escoja el postre' => '0',
+                    'Arroz con leche' => 'arroz',
+                    'Tarta de queso' => 'tartaQueso',
+                    'Tarta de la abuela' => 'tartAbuela',
+                    'Fruta' => 'fruta',
+                ],
+            ])
+            ->add('total', NumberType::class)
             ->add('restaurantes')
+            ->add('user')
         ;
     }
 
