@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\Restaurantes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,14 +16,8 @@ class RestaurantesType extends AbstractType
         $builder
             ->add('localidad', TextType::class)
             ->add('horario', TextType::class)
-            ->add('telefono', NumberType::class)
-            ->add('aforo', ChoiceType::class, [
-                'choices'  => [
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
-                ],
-            ])
+            ->add('telefono', IntegerType::class)
+            ->add('aforo', IntegerType::class)
             ->add('inventarios')
         ;
     }
