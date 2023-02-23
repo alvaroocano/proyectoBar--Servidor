@@ -65,6 +65,12 @@ class Reservas
      */
     private $restaurantes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reservas")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -179,6 +185,18 @@ class Reservas
     public function setRestaurantes(?Restaurantes $restaurantes): self
     {
         $this->restaurantes = $restaurantes;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
