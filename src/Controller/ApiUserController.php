@@ -130,14 +130,29 @@ use Symfony\Component\HttpFoundation\JsonResponse;
      
      /**
  
-      * @Route("/edit/{id}", name="app_api_user_edit", methods={"GET", "POST"})
+      * @Route("/edit/{id}", name="app_api_user_edit", methods={"GET", "PUT"})
  
       */
  
-     public function edit(Request $request, User $usuario, UserRepository $userRepository): JsonResponse
- 
+     public function edit(Request $request, $id, UserRepository $userRepository): JsonResponse
      {
- 
+
+        $data = json_decode($request->getContent(),true);
+
+        $user = $userRepository->findOneBy(["id" => $id]);
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->submit($data);
+        
+        if (false === $form->isValid()) {
+            return $this->json(["error" => "No existe ese usuario"], 404);
+        }
+
+        $entityManager=$this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return new JsonResponse(['status'=>'Usuario editado'], Response::HTTP_ACCEPTED);
       }
  
  
@@ -151,9 +166,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $user = $userRepository->findOneBy(["id" => $id]);
 
         if($user){
-            $entityManger=$this->getDoctrine()->getManager();
-            $entityManger->remove($user);
-            $entityManger->flush();
+            $entityManager=$this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
             return new JsonResponse(['status'=>'Usuario borrrau'], Response::HTTP_ACCEPTED);
         }else{
             return $this->json(["error" => "No existe ese usuario"], 404);
