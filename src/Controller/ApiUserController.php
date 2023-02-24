@@ -102,19 +102,32 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  
       */
  
-     public function show($id, UserRepository $userRepository): JsonResponse
+      public function show($id, UserRepository $userRepository): JsonResponse
+      {
+          $user = $userRepository->findOneBy(["id" => $id]);
+          if ($user) {
+            $data=[
  
-     {
- 
-     //No sé como recuperar un sólo objeto pasándoselo por cabecera
- 
-         $usuario= $userRepository->findBy(["id"=>$id]);
- 
-         return new JsonResponse($usuario, Response::HTTP_OK);
- 
-     }
- 
- 
+                'id'=> $user->getId(),
+    
+                'email'=> $user->getEmail(),
+    
+                'roles'=> $user->getRoles(),
+    
+                'password'=> $user->getPassword(),
+   
+                'nombre'=> $user->getNombre(),
+    
+                'reservas'=> $user->getReservas()
+    
+               ];
+
+               return new JsonResponse($data, Response::HTTP_ACCEPTED);
+          } else {
+              return $this->json(["error" => "No existe ese usuario"], 404);
+          }
+      }
+     
      /**
  
       * @Route("/edit/{id}", name="app_api_user_edit", methods={"GET", "POST"})
@@ -130,14 +143,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  
      /**
  
-      * @Route("/delete/{id}", name="app_api_user_delete", methods={"POST"})
+      * @Route("/delete/{id}", name="app_api_user_delete", methods={"GET", "DELETE"})
  
       */
- 
-     public function delete(Request $request, User $producto, UserRepository $userRepository): Response
- 
-     {
- 
-         }
+    public function delete($id, UserRepository $userRepository): JsonResponse
+    {
+        $user = $userRepository->findOneBy(["id" => $id]);
+
+        if($user){
+            $entityManger=$this->getDoctrine()->getManager();
+            $entityManger->remove($user);
+            $entityManger->flush();
+            return new JsonResponse(['status'=>'Usuario borrrau'], Response::HTTP_ACCEPTED);
+        }else{
+            return $this->json(["error" => "No existe ese usuario"], 404);
+        }
+        
+
+        
+    }
+
 
  }
