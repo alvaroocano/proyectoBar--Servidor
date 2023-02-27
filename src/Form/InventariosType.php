@@ -19,15 +19,6 @@ class InventariosType extends AbstractType
             ->add('nombre', TextType::class)
             ->add('precio', NumberType::class)
             ->add('cantidad', IntegerType::class)
-            ->add('tipo', ChoiceType::class, [
-                'choices'  => [
-                    'Seleccione el tipo' => '0',
-                    'Primero' => 'primero',
-                    'Segundo' => 'segundo',
-                    'Postre' => 'postre',
-                    'Bebida' => 'bebida',
-                ],
-            ])
             ->add('restaurantes')
         ;
     }

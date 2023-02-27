@@ -46,8 +46,6 @@ class ApiInventariosController extends AbstractController
 
                 'cantidad' => $valor->getCantidad(),
 
-                'tipo' => $valor->getTipo(),
-
                 'restaurantes' => $valor->getRestaurantes()
 
             ];
@@ -74,8 +72,6 @@ class ApiInventariosController extends AbstractController
 
         $cantidad = $data['cantidad'];
 
-        $tipo = $data['tipo'];
-
         $resestaurantes = $data['resestaurantes'];
 
         $inventario = new Inventarios();
@@ -85,8 +81,6 @@ class ApiInventariosController extends AbstractController
         $inventario->setPrecio($precio);
 
         $inventario->setCantidad($cantidad);
-
-        $inventario->setTipo($tipo);
 
         $inventario->setRestaurantes($resestaurantes);
 
@@ -115,8 +109,6 @@ class ApiInventariosController extends AbstractController
                 'precio' => $inventarios->getPrecio(),
 
                 'cantidad' => $inventarios->getCantidad(),
-
-                'tipo' => $inventarios->getTipo(),
 
                 'restaurantes' => $inventarios->getRestaurantes()
 

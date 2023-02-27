@@ -48,6 +48,8 @@ class ApiRestaurantesController extends AbstractController
 
                 'aforo' => $valor->getAforo(),
 
+                'imagen' => $valor->getImagen(),
+
                 'inventarios' => $valor->getInventarios()
 
             ];
@@ -76,6 +78,8 @@ class ApiRestaurantesController extends AbstractController
 
         $aforo = $data['aforo'];
 
+        $imagen = $data['imagen'];
+
         $inventarios = $data['inventarios'];
 
         $restaurante = new Restaurantes();
@@ -87,6 +91,8 @@ class ApiRestaurantesController extends AbstractController
         $restaurante->setTelefono($telefono);
 
         $restaurante->setAforo($aforo);
+
+        $restaurante->setImagen($imagen);
 
         $restaurante->setInventarios($inventarios);
 
@@ -117,6 +123,8 @@ class ApiRestaurantesController extends AbstractController
                 'telefono' => $restaurantes->getTelefono(),
 
                 'aforo' => $restaurantes->getAforo(),
+
+                'imagen' => $restaurantes->getImagen(),
 
                 'inventarios' => $restaurantes->getInventarios()
 

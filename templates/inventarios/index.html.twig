@@ -12,7 +12,6 @@
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
-                <th>Tipo</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,7 +22,6 @@
                 <td>{{ inventario.nombre }}</td>
                 <td>{{ inventario.precio }}</td>
                 <td>{{ inventario.cantidad }}</td>
-                <td>{{ inventario.tipo }}</td>
                 <td>
                     <a href="{{ path('app_inventarios_show', {'id': inventario.id}) }}">show</a>
                     <a href="{{ path('app_inventarios_edit', {'id': inventario.id}) }}">edit</a>

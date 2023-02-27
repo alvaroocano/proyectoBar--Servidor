@@ -18,6 +18,7 @@ class RestaurantesType extends AbstractType
             ->add('horario', TextType::class)
             ->add('telefono', IntegerType::class)
             ->add('aforo', IntegerType::class)
+            ->add('imagen', TextType::class)
             ->add('inventarios')
         ;
     }
