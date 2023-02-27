@@ -53,6 +53,11 @@ class Restaurantes
      */
     private $inventarios;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imagen;
+
     public function __construct()
     {
         $this->reservas = new ArrayCollection();
@@ -149,6 +154,18 @@ class Restaurantes
     public function setInventarios(Inventarios $inventarios): self
     {
         $this->inventarios = $inventarios;
+
+        return $this;
+    }
+
+    public function getImagen(): ?string
+    {
+        return $this->imagen;
+    }
+
+    public function setImagen(string $imagen): self
+    {
+        $this->imagen = $imagen;
 
         return $this;
     }
