@@ -68,47 +68,31 @@ class ApiRestaurantesController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
-        $fecha = $data['fecha'];
+        $localidad = $data['localidad'];
 
-        $hora = $data['hora'];
+        $horario = $data['horario'];
 
-        $nro_personas = $data['nro_personas'];
+        $telefono = $data['telefono'];
 
-        $primero = $data['primero'];
+        $aforo = $data['aforo'];
 
-        $segundo = $data['segundo'];
+        $inventarios = $data['inventarios'];
 
-        $bebida = $data['bebida'];
+        $restaurante = new Restaurantes();
 
-        $postre = $data['postre'];
+        $restaurante->setLocalidad($localidad);
 
-        $restaurantes = $data['restaurantes'];
+        $restaurante->setHorario($horario);
 
-        $user = $data['user'];
+        $restaurante->setTelefono($telefono);
 
-        $reserva = new Restaurantes();
+        $restaurante->setAforo($aforo);
 
-        $reserva->setFecha($fecha);
+        $restaurante->setInventarios($inventarios);
 
-        $reserva->setHora($hora);
+        $restaurantesRepository->add($restaurante, true);
 
-        $reserva->setNroPersonas($nro_personas);
-
-        $reserva->setPrimero($primero);
-
-        $reserva->setSegundo($segundo);
-
-        $reserva->setBebida($bebida);
-
-        $reserva->setPostre($postre);
-
-        $reserva->setRestaurantes($restaurantes);
-
-        $reserva->setUser($user);
-
-        $restaurantesRepository->add($reserva, true);
-
-        return new JsonResponse(['status' => 'Reserva Creada'], Response::HTTP_CREATED);
+        return new JsonResponse(['status' => 'Restaurante Creado'], Response::HTTP_CREATED);
     }
 
 
@@ -126,30 +110,22 @@ class ApiRestaurantesController extends AbstractController
 
                 'id' => $restaurantes->getId(),
 
-                'fecha' => $restaurantes->getFecha(),
+                'localidad' => $restaurantes->getLocalidad(),
 
-                'hora' => $restaurantes->getHora(),
+                'horario' => $restaurantes->getHorario(),
 
-                'nro_personas' => $restaurantes->getNroPersonas(),
+                'telefono' => $restaurantes->getTelefono(),
 
-                'primero' => $restaurantes->getPrimero(),
+                'aforo' => $restaurantes->getAforo(),
 
-                'segundo' => $restaurantes->getSegundo(),
-
-                'bebida' => $restaurantes->getBebida(),
-
-                'postre' => $restaurantes->getPostre(),
-
-                'restaurantes' => $restaurantes->getRestaurantes(),
-
-                'user' => $restaurantes->getUser()
+                'inventarios' => $restaurantes->getInventarios()
 
 
             ];
 
             return new JsonResponse($data, Response::HTTP_ACCEPTED);
         } else {
-            return $this->json(["error" => "No existe esa reserva"], 404);
+            return $this->json(["error" => "No existe ese restaurante"], 404);
         }
     }
 
@@ -171,13 +147,13 @@ class ApiRestaurantesController extends AbstractController
         $form->submit($data);
 
         if (false === $form->isValid()) {
-            return $this->json(["error" => "No existe esa reserva"], 404);
+            return $this->json(["error" => "No existe ese restaurante"], 404);
         }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 
-        return new JsonResponse(['status' => 'Reserva editada'], Response::HTTP_ACCEPTED);
+        return new JsonResponse(['status' => 'Restaurante editado'], Response::HTTP_ACCEPTED);
     }
 
 
@@ -194,9 +170,9 @@ class ApiRestaurantesController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($restaurantes);
             $entityManager->flush();
-            return new JsonResponse(['status' => 'Reserva borrrada'], Response::HTTP_ACCEPTED);
+            return new JsonResponse(['status' => 'Restaurante borrrado'], Response::HTTP_ACCEPTED);
         } else {
-            return $this->json(["error" => "No existe ese reserva"], 404);
+            return $this->json(["error" => "No existe ese restaurante"], 404);
         }
     }
 }

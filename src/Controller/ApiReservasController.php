@@ -204,7 +204,7 @@ class ApiReservasController extends AbstractController
             $entityManager->flush();
             return new JsonResponse(['status' => 'Reserva borrrada'], Response::HTTP_ACCEPTED);
         } else {
-            return $this->json(["error" => "No existe ese reserva"], 404);
+            return $this->json(["error" => "No existe esa reserva"], 404);
         }
     }
 }
