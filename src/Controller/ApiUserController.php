@@ -61,7 +61,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
     
  /**
 
-     * @Route("/new", name="app_api_user_new", methods={"POST"})
+     * @Route("/new", name="app_api_user_new", methods={"GET","POST"})
 
      */
 
