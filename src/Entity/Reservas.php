@@ -23,7 +23,7 @@ class Reservas
         return $this->hora;        
     }
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255)
      */
     private $fecha;
 
@@ -84,12 +84,13 @@ class Reservas
         return $this->id;
     }
 
-    public function getFecha(): ?\DateTimeInterface
+    public function getFecha(): ?string
     {
         return $this->fecha;
+        return $this;
     }
 
-    public function setFecha(\DateTimeInterface $fecha): self
+    public function setFecha(string $fecha): self
     {
         $this->fecha = $fecha;
 

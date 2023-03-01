@@ -66,11 +66,11 @@ class ApiReservasController extends AbstractController
 
     /**
 
-     * @Route("/new", name="app_api_reservas_new", methods={"POST"})
+     * @Route("/new", name="app_api_reservas_new", methods={"GET","POST"})
 
      */
 
-    public function new(Request $request, ReservasRepository $reservasRepository): JsonResponse
+    public function new(Request $request, ReservasRepository $reservasRepository): Response
 
     {
 
@@ -116,7 +116,7 @@ class ApiReservasController extends AbstractController
 
         $reservasRepository->add($reserva, true);
 
-        return new JsonResponse(['status' => 'Reserva Creada'], Response::HTTP_CREATED);
+        return new Response(Response::HTTP_CREATED);
     }
 
 
@@ -128,7 +128,7 @@ class ApiReservasController extends AbstractController
 
     public function show($id, ReservasRepository $reservasRepository): JsonResponse
     {
-        $reservas = $reservasRepository->findOneBy(["id" => $id]);
+        $reservas = $reservasRepository->findOneBy(["user" => $id]);
         if ($reservas) {
             $data = [
 
