@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
@@ -20,7 +20,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
  class ApiUserController extends AbstractController
  {
- 
+    
+    private $encoder;
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository,UserPasswordEncoderInterface $encoder){
+        $this->userRepository=$userRepository;
+        $this->encoder=$encoder;
+    }
+
      /**
  
       * @Route("/", name="app_api_user_index", methods={"GET"})
@@ -65,7 +73,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
      */
 
-     public function new(Request $request, UserRepository $userRepository): JsonResponse
+     public function new(Request $request, UserRepository $userRepository): Response
 
      {
  
@@ -78,8 +86,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
          $password = $data['password'];
 
          $nombre = $data['nombre'];
-
-         $reservas = $data['reservas'];
  
          $usuario = new User();
         
@@ -89,11 +95,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
          $usuario->setNombre($nombre);
 
-         $usuario->setPassword($password);
+         $pass=$this->encoder->encodePassword($usuario,$password);
+         $usuario->setPassword($pass);
  
          $userRepository->add($usuario, true);
  
-         return new JsonResponse(['status'=>'Usuario Creado'], Response::HTTP_CREATED);
+         return new Response(Response::HTTP_CREATED);
  
      }
  
