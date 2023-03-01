@@ -65,7 +65,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
      */
 
-     public function new(Request $request, UserRepository $userRepository): JsonResponse
+     public function new(Request $request, UserRepository $userRepository): Response
 
      {
  
@@ -91,7 +91,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  
          $userRepository->add($usuario, true);
  
-         return new JsonResponse(['status'=>'Usuario Creado'], Response::HTTP_CREATED);
+         return new Response(Response::HTTP_CREATED);
  
      }
  
