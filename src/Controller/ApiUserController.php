@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
 
@@ -182,9 +182,27 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
         }else{
             return $this->json(["error" => "No existe ese usuario"], 404);
         }
-        
+    }
 
-        
+    /**
+     * @Route("/login", name="app_api_user_login",methods={"GET","POST"})
+     */
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
+    {
+        $data=json_decode($request->getContent(),true);
+        $email=$data["email"];
+        $password=$data["password"];
+        return ($email.$password);
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('target_path');
+        // }
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
 
