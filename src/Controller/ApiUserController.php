@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 
@@ -20,6 +21,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
  class ApiUserController extends AbstractController
  {
+
+    private $encoder;
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository,UserPasswordEncoderInterface $encoder){
+        $this->userRepository=$userRepository;
+        $this->encoder=$encoder;
+    }
  
      /**
  
@@ -87,7 +96,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
          $usuario->setNombre($nombre);
 
-         $usuario->setPassword($password);
+         $pass=$this->encoder->encodePassword($usuario,$password);
+         $usuario->setPassword($pass);
  
          $userRepository->add($usuario, true);
  
