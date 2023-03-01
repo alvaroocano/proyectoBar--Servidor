@@ -18,7 +18,10 @@ class Reservas
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    public function __toString()
+    {
+        return $this->hora;        
+    }
     /**
      * @ORM\Column(type="datetime")
      */
