@@ -61,7 +61,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
     
  /**
 
-     * @Route("/new", name="app_api_user_new", methods={"GET","POST"})
+     * @Route("/new", name="app_api_user_new", methods={"POST"})
 
      */
 
@@ -78,8 +78,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
          $password = $data['password'];
 
          $nombre = $data['nombre'];
-
-         $reservas = $data['reservas'];
  
          $usuario = new User();
         
