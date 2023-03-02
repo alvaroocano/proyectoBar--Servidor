@@ -128,33 +128,35 @@ class ApiReservasController extends AbstractController
 
     public function show($id, ReservasRepository $reservasRepository): JsonResponse
     {
-        $reservas = $reservasRepository->findOneBy(["user" => $id]);
+        $reservas = $reservasRepository->findAll(["user" => $id]);
         if ($reservas) {
-            $data = [
+            $data = [];
 
-                'id' => $reservas->getId(),
+            foreach ($reservas as $valor) {
+            $data[] = [
 
-                'fecha' => $reservas->getFecha(),
+                'id' => $valor->getId(),
 
-                'hora' => $reservas->getHora(),
+                'fecha' => $valor->getFecha(),
 
-                'nro_personas' => $reservas->getNroPersonas(),
+                'hora' => $valor->getHora(),
 
-                'primero' => $reservas->getPrimero(),
+                'nro_personas' => $valor->getNroPersonas(),
 
-                'segundo' => $reservas->getSegundo(),
+                'primero' => $valor->getPrimero(),
 
-                'bebida' => $reservas->getBebida(),
+                'segundo' => $valor->getSegundo(),
 
-                'postre' => $reservas->getPostre(),
+                'bebida' => $valor->getBebida(),
 
-                'restaurantes' => $reservas->getRestaurantes(),
+                'postre' => $valor->getPostre(),
 
-                'user' => $reservas->getUser()
+                'restaurantes' => $valor->getRestaurantes(),
 
+                'user' => $valor->getUser()
 
             ];
-
+        }
             return new JsonResponse($data, Response::HTTP_ACCEPTED);
         } else {
             return $this->json(["error" => "No existe esa reserva"], 404);
