@@ -128,7 +128,7 @@ class ApiReservasController extends AbstractController
 
     public function show($id, ReservasRepository $reservasRepository): JsonResponse
     {
-        $reservas = $reservasRepository->findAll(["user" => $id]);
+        $reservas = $reservasRepository->findBy(["user" => $id]);
         if ($reservas) {
             $data = [];
 
@@ -154,7 +154,6 @@ class ApiReservasController extends AbstractController
                 'restaurantes' => $valor->getRestaurantes(),
 
                 'user' => $valor->getUser()
-
             ];
         }
             return new JsonResponse($data, Response::HTTP_ACCEPTED);
