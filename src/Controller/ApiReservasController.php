@@ -7,6 +7,7 @@ use App\Form\ReservasType;
 use App\Repository\ReservasRepository;
 use App\Repository\RestaurantesRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,7 +69,7 @@ class ApiReservasController extends AbstractController
 
     /**
 
-     * @Route("/new", name="app_api_reservas_new", methods={"GET","POST"})
+     * @Route("/new/{id}/{localidad}", name="app_api_reservas_new", methods={"GET","POST"})
 
      */
 
@@ -92,8 +93,10 @@ class ApiReservasController extends AbstractController
 
         $postre = $data['postre'];
 
-        $usuario=$userRepository->findOneBy(["user" => $id]);
-        $restaurante=$restaurantesRepository->findOneBy(["restaurantes" => $localidad]);
+        $total = $data['total'];
+
+        $usuario=$userRepository->findOneBy(["id" => $id]);
+        $restaurante=$restaurantesRepository->findOneBy(["localidad" => $localidad]);
 
         if($usuario && $restaurante){
             $reserva = new Reservas();
@@ -111,6 +114,8 @@ class ApiReservasController extends AbstractController
             $reserva->setBebida($bebida);
 
             $reserva->setPostre($postre);
+
+            $reserva->setTotal($total);
 
             $reserva->setRestaurantes($restaurante);
 
@@ -172,25 +177,19 @@ class ApiReservasController extends AbstractController
  
      */
 
-    public function edit(Request $request, $id, ReservasRepository $reservasRepository): JsonResponse
+    public function edit(Request $request, EntityManagerInterface $reservasRepository,$id, ReservasRepository $repositorio): Response
     {
-
-        $data = json_decode($request->getContent(), true);
-
-        $reservas = $reservasRepository->findOneBy(["id" => $id]);
-
-        $form = $this->createForm(ReservasType::class, $reservas);
-
-        $form->submit($data);
-
-        if (false === $form->isValid()) {
-            return $this->json(["error" => "No existe esa reserva"], 404);
+        $personas=json_decode($request->getContent(),true);
+        $reserva=$repositorio->findOneBy(["id"=>$id]);
+        if($reserva){
+            $reserva->setNroPersonas($personas);
+            $reservasRepository->flush();
+            return new Response(Response::HTTP_ACCEPTED);
+        }else{
+            return new Response(Response::HTTP_NOT_ACCEPTABLE);
         }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
-
-        return new JsonResponse(['status' => 'Reserva editada'], Response::HTTP_ACCEPTED);
+        
+        
     }
 
 
