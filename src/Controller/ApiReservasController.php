@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Reservas;
 use App\Form\ReservasType;
 use App\Repository\ReservasRepository;
+use App\Repository\RestaurantesRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,7 +72,7 @@ class ApiReservasController extends AbstractController
 
      */
 
-    public function new(Request $request, ReservasRepository $reservasRepository): Response
+    public function new(Request $request, ReservasRepository $reservasRepository, UserRepository $userRepository, RestaurantesRepository $restaurantesRepository,$id,$localidad): Response
 
     {
 
@@ -90,31 +92,33 @@ class ApiReservasController extends AbstractController
 
         $postre = $data['postre'];
 
-        $restaurantes = $data['restaurantes'];
+        $usuario=$userRepository->findOneBy(["user" => $id]);
+        $restaurante=$restaurantesRepository->findOneBy(["restaurantes" => $localidad]);
 
-        $user = $data['user'];
+        if($usuario && $restaurante){
+            $reserva = new Reservas();
 
-        $reserva = new Reservas();
+            $reserva->setFecha($fecha);
 
-        $reserva->setFecha($fecha);
+            $reserva->setHora($hora);
 
-        $reserva->setHora($hora);
+            $reserva->setNroPersonas($nro_personas);
 
-        $reserva->setNroPersonas($nro_personas);
+            $reserva->setPrimero($primero);
 
-        $reserva->setPrimero($primero);
+            $reserva->setSegundo($segundo);
 
-        $reserva->setSegundo($segundo);
+            $reserva->setBebida($bebida);
 
-        $reserva->setBebida($bebida);
+            $reserva->setPostre($postre);
 
-        $reserva->setPostre($postre);
+            $reserva->setRestaurantes($restaurante);
 
-        $reserva->setRestaurantes($restaurantes);
+            $reserva->setUser($usuario);
 
-        $reserva->setUser($user);
-
-        $reservasRepository->add($reserva, true);
+            $reservasRepository->add($reserva, true);
+        }
+        
 
         return new Response(Response::HTTP_CREATED);
     }
